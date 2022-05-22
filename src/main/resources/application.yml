@@ -1,0 +1,48 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sport?serverTimezone=UTC
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.44.129
+    port: 6379
+    database: 0
+
+  mail:
+    host: smtp.qq.com
+    protocol: smtp
+    default-encoding: UTF-8
+    test-connection: true
+    username: 974859843@qq.com
+    password: ostiyzqxmgkybdid
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.zyy.sport.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+jwt:
+  # 请求头
+  tokenHeader: Authorization
+  # 签名加盐
+  secret: zooeyace66@gmail.com
+  # jwt expiration
+  expiration: 180000
+  # token 头部
+  tokenHead: 'Bearer '
+
+
+# 七牛云
+qiniu:
+  accessKey: yJ8K0gOTzlJIgqqluQi_utYoxghmhrSUK46OSPFc
+  secretKey: JguMPxUcXdehOT_csOxfwgaCtP8BXsFuk9RrESXH
+  bucket: zooeyace-sport

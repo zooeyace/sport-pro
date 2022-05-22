@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zyy.sport.mapper.RoleMapper">
+
+    <!--结果集-->
+    <resultMap id="roleMap" type="Role">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="remark" property="remark"/>
+        <result column="status" property="status"/>
+        <collection property="menus" ofType="Menu" column="id" javaType="List"/>
+        <collection property="permissions" ofType="Permission" javaType="List" column="id"/>
+    </resultMap>
+
+    <!--  分页  -->
+    <select id="findByPage" resultMap="roleMap">
+        select * from role
+        <if test="query != null and query.length > 0">
+            where name like concat('%', #{query}, '%') or remark like concat('%', #{query}, '%')
+        </if>
+    </select>
+
+    <!--子菜单-->
+    <select id="findSubMenu" resultType="Menu">
+        select * from menu where parent_id = #{parentId} and status=1
+    </select>
+
+    <!--所有角色-->
+    <select id="findAll" resultType="Role">
+        select id,remark from role where status=1
+    </select>
+
+    <!--  新增 返回指定的自增属性id  -->
+    <insert id="insert" parameterType="Role" keyProperty="id" useGeneratedKeys="true">
+        insert into role(name,remark) values(#{name}, #{remark})
+    </insert>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from role where id=#{id}
+    </delete>
+
+    <update id="update" parameterType="Role">
+        update role
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="removeMenusByRoleId">
+        delete from roles_menus where role_id=#{id}
+    </delete>
+
+    <delete id="removePermissionsByRoleId">
+        delete from roles_permissions where role_id=#{id}
+    </delete>
+
+    <select id="findById" resultType="Role">
+        select * from role where id=#{id}
+    </select>
+
+    <insert id="addPermissions">
+        insert into roles_permissions(role_id, permission_id) values(#{roleId}, #{permissionId})
+    </insert>
+
+    <insert id="addMenus">
+        insert into roles_menus(role_id, menu_id) values(#{roleId}, #{menuId})
+    </insert>
+</mapper>
