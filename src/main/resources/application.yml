@@ -20,6 +20,11 @@ spring:
     username: 974859843@qq.com
     password: ostiyzqxmgkybdid
 
+# 文件上传
+  servlet:
+    multipart:
+      max-file-size: 20MB
+
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
