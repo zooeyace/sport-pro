@@ -13,13 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalException {
 
-//    @ExceptionHandler(value = SQLIntegrityConstraintViolationException.class)
-//    public R<String> exception(SQLIntegrityConstraintViolationException e) {
-//        log.info("---- 数据表插入异常，存在重复字段名 ---- {}", e.getMessage());
-//        return e.getMessage().contains("Duplicate entry") ?
-//                R.errorOf("已经存在了，换个名字吧") : R.errorOf("发生未知错误");
-//    }
-
     /**
      *  运行时异常
      */

@@ -51,3 +51,9 @@ qiniu:
   accessKey: yJ8K0gOTzlJIgqqluQi_utYoxghmhrSUK46OSPFc
   secretKey: JguMPxUcXdehOT_csOxfwgaCtP8BXsFuk9RrESXH
   bucket: zooeyace-sport
+
+
+# wx
+mini:
+  appid: wxceaadf0e5c32cbbe
+  secret: 36c5aa7a86d256f7432bb30ce474f4a9

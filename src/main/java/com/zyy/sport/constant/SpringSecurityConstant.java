@@ -25,5 +25,8 @@ public class SpringSecurityConstant {
             "/user/logout",
             "tool/retrieve/password",
             "tool/sms",
+
+            // 小程序
+            "/mini/login",
     };
 }

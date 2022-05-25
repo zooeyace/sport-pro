@@ -26,4 +26,14 @@ public interface UserService {
      * @param newPassword 新密码
      */
     void updatePwdByMail(String receiver, String newPassword);
+
+    /**
+     *  小程序登录
+     */
+    R miniLogin(String openid, String sessionKey);
+
+    /**
+     *  小程序 根据openid修改信息
+     */
+    R updateInfoByOpenid(EasyUser user);
 }

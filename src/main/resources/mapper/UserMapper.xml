@@ -50,7 +50,7 @@
     </resultMap>
 
     <select id="findByUsername" resultMap="mainMap">
-        select * from easyuser where username=#{value} or phone_number=#{value}
+        select * from easyuser where username=#{value} or phone_number=#{value} or open_id=#{value}
     </select>
 
     <!-- 根据用户ID查询角色信息 -->
@@ -157,5 +157,30 @@
 
     <update id="updatePassword">
         update easyuser set password=#{password} where email=#{email}
+    </update>
+
+    <update id="updateByOpenId">
+        update easyuser
+        <set>
+            <if test="email != null and email.length > 0">
+                email = #{email},
+            </if>
+            <if test="nickname != null and nickname.length > 0">
+                name = #{nickname},
+            </if>
+            <if test="avatarUrl != null and avatarUrl.length > 0">
+                avatar_url = #{avatarUrl},
+            </if>
+            <if test="address != null and address.length > 0">
+                address = #{address},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="phoneNumber != null">
+                phone_number = #{phoneNumber}
+            </if>
+        </set>
+        where open_id=#{openId}
     </update>
 </mapper>

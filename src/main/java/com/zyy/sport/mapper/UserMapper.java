@@ -5,8 +5,10 @@ import com.zyy.sport.entity.EasyUser;
 import com.zyy.sport.entity.Menu;
 import com.zyy.sport.entity.Permission;
 import com.zyy.sport.entity.Role;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -41,4 +43,9 @@ public interface UserMapper {
     EasyUser findById(Integer id);
 
     void updatePassword(@Param("email") String receiver, @Param("password") String newPassword);
+
+    @Insert("insert into easyuser(open_id) values(#{openid})")
+    void insertByOpenid(String openid);
+
+    void updateByOpenId(EasyUser user);
 }

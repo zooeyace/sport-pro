@@ -156,4 +156,43 @@ public class UserServiceImpl implements UserService {
     public void updatePwdByMail(String receiver, String newPassword) {
         userMapper.updatePassword(receiver, newPassword);
     }
+
+    @Override
+    public R miniLogin(String openid, String sessionKey) {
+        UserDetails userDetails;
+        // 数据库通过在mapper追加openid判断条件，检验是否存在
+        userDetails = userDetailsService.loadUserByUsername(openid);
+        if (userDetails == null) {
+            // 不存在 新增
+            userMapper.insertByOpenid(openid);
+            userDetails = userDetailsService.loadUserByUsername(openid);
+        }
+        if (!userDetails.isEnabled()) {
+            return R.errorOf("帐号状态异常，无法登录");
+        }
+        log.info("---- 微信小程序登录成功，在security对象中存入登录者信息 ----");
+        UsernamePasswordAuthenticationToken authenticationToken
+                = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        //需要借助jwt来生成token
+        String token = tokenUtil.generateToken(userDetails);
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("tokenHead", tokenHead);
+        map.put("token", token);
+        map.put("userinfo", userDetails);
+        map.put("openid", openid);
+        map.put("sessionKey", sessionKey);
+        return R.okOf(map, "登录成功");
+    }
+
+    @Override
+    public R updateInfoByOpenid(EasyUser user) {
+        if (StringUtils.isEmpty(user.getOpenId())) {
+            return R.errorOf("请传递小程序唯一标识[openid]");
+        }
+        // 清除用户缓存
+        redisUtil.delKey("username_" + user.getOpenId());
+        userMapper.updateByOpenId(user);
+        return R.okOf("用户信息更新成功");
+    }
 }
